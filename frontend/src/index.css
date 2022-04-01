@@ -5,3 +5,6 @@ body {
 main {
   height: 90%;
 }
+.rating span {
+  margin: 0.1em;
+}

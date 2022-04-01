@@ -3,13 +3,13 @@ import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import products from "../products";
 
-const Homescreen = () => {
+const HomeScreen = () => {
   return (
     <>
-      <h1>Naše produkty</h1>
+      <h1 className="mt-3">Naše produkty</h1>
       <Row>
         {products.map((product) => (
-          <Col sm={12} md={6} lg={4} xl={3}>
+          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
             <Product product={product} />
           </Col>
         ))}
@@ -18,4 +18,4 @@ const Homescreen = () => {
   );
 };
 
-export default Homescreen;
+export default HomeScreen;
