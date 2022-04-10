@@ -1,0 +1,23 @@
+{
+  "name": "react-e-shop",
+  "version": "1.0.0",
+  "description": "MERN eshop",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HonzaPrikryl/MERN-Eshop.git"
+  },
+  "author": "Jan Přikryl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HonzaPrikryl/MERN-Eshop/issues"
+  },
+  "homepage": "https://github.com/HonzaPrikryl/MERN-Eshop#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3"
+  }
+}
