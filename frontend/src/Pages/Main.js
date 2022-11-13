@@ -12,7 +12,7 @@ const HomeScreen = () => {
     };
     fetchProducts();
   }, []);
-
+  console.log(products);
   return (
     <>
       <h1 className="mt-3">Naše produkty</h1>

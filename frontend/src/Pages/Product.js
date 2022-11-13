@@ -13,8 +13,6 @@ import axios from "axios";
 
 const ProductScreen = () => {
   const { id } = useParams();
-  // const product = products.find((p) => p._id === id);
-
   const [product, setProduct] = useState({});
 
   useEffect(() => {
@@ -24,6 +22,7 @@ const ProductScreen = () => {
     };
     fetchProduct();
   }, []);
+
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
