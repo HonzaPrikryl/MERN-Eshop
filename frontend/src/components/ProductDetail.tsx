@@ -1,9 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import { IProduct } from "../redux/types";
 
-const Product = ({ product }) => {
+interface ProductDetailProps {
+  product: IProduct;
+}
+
+const ProductDetail: FC<ProductDetailProps> = ({ product }) => {
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>
@@ -28,4 +33,4 @@ const Product = ({ product }) => {
   );
 };
 
-export default Product;
+export default ProductDetail;

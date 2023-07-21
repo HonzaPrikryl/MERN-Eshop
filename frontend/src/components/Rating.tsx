@@ -1,6 +1,12 @@
-import React from "react";
+import { FC } from "react";
 
-const Rating = ({ value, text, color }) => {
+interface IRatingProps {
+  value: number;
+  text: string;
+  color: string;
+}
+
+const Rating: FC<IRatingProps> = ({ value, text, color }) => {
   return (
     <div className="rating">
       <span>

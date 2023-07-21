@@ -8,11 +8,8 @@ import { notFound, errorHandler } from "./middleware/error.js";
 
 dotenv.config();
 connectDB();
-const app = express();
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+const app = express();
 
 app.use("/api/products", productRoutes);
 
