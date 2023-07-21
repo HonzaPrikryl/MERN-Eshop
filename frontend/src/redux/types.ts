@@ -4,14 +4,8 @@ export interface IProductsFetch {
   error: string | null;
 }
 
-export interface IProductFetch {
-  product: IProduct;
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
-}
-
 export interface IProduct {
-  _id: number | null;
+  _id: string | null;
   name: string;
   image: string;
   description: string;
@@ -23,7 +17,15 @@ export interface IProduct {
   numReviews: number;
 }
 
+export interface CartItem {
+  product: IProduct & { quantity: number };
+}
+
+export interface CartState {
+  cartItems: CartItem[];
+}
+
 export interface IStore {
   productsReducer: IProductsFetch;
-  productReducer: IProductFetch;
+  cartReducer: CartState;
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, FC } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { FC, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Row,
   Col,
@@ -7,22 +7,33 @@ import {
   ListGroup,
   Button,
   ListGroupItem,
+  Form,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { fetchProduct } from "../redux/productSlice";
-import { IStore } from "../redux/types";
+import { IProduct, IStore } from "../redux/types";
+import { addToCart } from "../redux/cartSlice";
 
 const ProductScreen: FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { product, status, error } = useAppSelector(
-    (state: IStore) => state.productReducer
+  const navigate = useNavigate();
+  const { products, status, error } = useAppSelector(
+    (state: IStore) => state.productsReducer
   );
+  const product = products.find((p: IProduct) => p._id === id);
+  const [quantity, setQuantity] = useState("1");
 
-  useEffect(() => {
-    dispatch(fetchProduct(id));
-  }, [dispatch, id]);
+  const handleAddToCartSubmit = () => {
+    if (product) {
+      const productWithQuantity = {
+        ...product,
+        quantity: parseInt(quantity, 10),
+      };
+      dispatch(addToCart({ product: productWithQuantity }));
+    }
+    navigate("/cart");
+  };
 
   return (
     <>
@@ -33,6 +44,8 @@ const ProductScreen: FC = () => {
         <h2>Loading...</h2>
       ) : error ? (
         <h2>Error</h2>
+      ) : !product ? (
+        <h2>Product not found</h2>
       ) : (
         <Row>
           <Col md={6} className="mb-2">
@@ -77,10 +90,32 @@ const ProductScreen: FC = () => {
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
+                <Row>
+                  <Col>quantity:</Col>
+                  <Col>
+                    <Form.Control
+                      as="select"
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                    >
+                      {Array.from(
+                        { length: product.countInStock },
+                        (_, index) => (
+                          <option key={index + 1} value={index + 1}>
+                            {index + 1}
+                          </option>
+                        )
+                      )}
+                    </Form.Control>
+                  </Col>
+                </Row>
+              </ListGroupItem>
+              <ListGroupItem>
                 <Button
                   className="btn-block"
                   type="button"
                   disabled={product.countInStock === 0}
+                  onClick={handleAddToCartSubmit}
                 >
                   Add to cart
                 </Button>
