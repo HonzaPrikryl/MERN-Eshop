@@ -10,8 +10,20 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+const saveProductsToLocalStorage = (products: IProduct[]) => {
+  localStorage.setItem("products", JSON.stringify(products));
+};
+
+export const loadProductsFromLocalStorage = () => {
+  const productsJson = localStorage.getItem("products");
+  if (productsJson) {
+    return JSON.parse(productsJson);
+  }
+  return [];
+};
+
 const initialState: IProductsFetch = {
-  products: [],
+  products: loadProductsFromLocalStorage(),
   status: "idle",
   error: null,
 };
@@ -30,6 +42,7 @@ const productsSlice = createSlice({
         (state, action: PayloadAction<IProduct[]>) => {
           state.status = "succeeded";
           state.products = action.payload;
+          saveProductsToLocalStorage(action.payload);
         }
       )
       .addCase(fetchProducts.rejected, (state, action) => {
