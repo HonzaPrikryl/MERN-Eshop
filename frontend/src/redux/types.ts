@@ -4,6 +4,12 @@ export interface IProductsFetch {
   error: string | null;
 }
 
+export interface IProductFetch {
+  product: IProduct;
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
 export interface IProduct {
   _id: string | null;
   name: string;
@@ -27,5 +33,6 @@ export interface CartState {
 
 export interface IStore {
   productsReducer: IProductsFetch;
+  productReducer: IProductFetch;
   cartReducer: CartState;
 }

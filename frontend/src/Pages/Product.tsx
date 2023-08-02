@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -11,18 +11,22 @@ import {
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { IProduct, IStore } from "../redux/types";
+import { IStore } from "../redux/types";
 import { addToCart } from "../redux/cartSlice";
+import { fetchProduct } from "../redux/productSlice";
 
 const ProductScreen: FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { products, status, error } = useAppSelector(
-    (state: IStore) => state.productsReducer
-  );
-  const product = products.find((p: IProduct) => p._id === id);
   const [quantity, setQuantity] = useState("1");
+  const { product, status, error } = useAppSelector(
+    (state: IStore) => state.productReducer
+  );
+
+  useEffect(() => {
+    dispatch(fetchProduct(id));
+  }, [dispatch, id]);
 
   const handleAddToCartSubmit = () => {
     if (product) {
