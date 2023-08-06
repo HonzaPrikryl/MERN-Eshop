@@ -1,13 +1,6 @@
-export interface IProductsFetch {
-  products: IProduct[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
-}
-
-export interface IProductFetch {
-  product: IProduct;
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
+export interface IUserInfo {
+  email: string;
+  password: string;
 }
 
 export interface IProduct {
@@ -29,10 +22,4 @@ export interface CartItem {
 
 export interface CartState {
   cartItems: CartItem[];
-}
-
-export interface IStore {
-  productsReducer: IProductsFetch;
-  productReducer: IProductFetch;
-  cartReducer: CartState;
 }
