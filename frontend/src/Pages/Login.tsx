@@ -1,8 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setUserInfo } from "../redux/authSlice";
+import { toast } from "react-toastify";
+import { useLoginMutation } from "../redux/api/usersApiSlice";
 
 const LoginScreen = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useAppSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
+
+  const canSave = [email, password].every(Boolean) && !isLoading;
+
+  const submitHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (canSave) {
+      try {
+        const res = await login({ email, password }).unwrap();
+        dispatch(setUserInfo(res));
+        console.log(res);
+        navigate("/");
+        setEmail("");
+        setPassword("");
+      } catch (err) {
+        if (err instanceof Error) {
+          toast.error(err.message, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        } else {
+          toast.error("Invalid email or password. Please try again.", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+      }
+    }
+  };
+
   return (
     <Container>
       <Row className="d-flex justify-content-center align-items-center mt-4">
@@ -14,16 +58,26 @@ const LoginScreen = () => {
                 <h2 className="fw-bold mb-2 text-uppercase ">Login</h2>
                 <p className=" mb-5">Please enter your login and password!</p>
                 <div className="mb-3">
-                  <Form>
+                  <Form onSubmit={submitHandler}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label className="text-center">
                         Email address
                       </Form.Label>
-                      <Form.Control type="email" placeholder="Enter email" />
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" />
+                      <Form.Label>password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                       <p className="small">
@@ -32,10 +86,15 @@ const LoginScreen = () => {
                         </a>
                       </p>
                     </Form.Group>
-                    <div className="d-grid">
+                    <div className="d-flex">
                       <Button variant="primary" type="submit">
                         Login
                       </Button>
+                      {isLoading && (
+                        <div className="ml-5 mt-2">
+                          <h3>Loading...</h3>
+                        </div>
+                      )}
                     </div>
                   </Form>
                   <div className="mt-3">

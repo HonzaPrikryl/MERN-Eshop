@@ -1,8 +1,3 @@
-export interface IUserInfo {
-  email: string;
-  password: string;
-}
-
 export interface IProduct {
   _id: string | null;
   name: string;
@@ -22,4 +17,23 @@ export interface CartItem {
 
 export interface CartState {
   cartItems: CartItem[];
+}
+
+export interface IUserInfo {
+  email: string;
+  isAdmin: boolean;
+  name: string;
+  _id: string;
+}
+
+export interface IUserInfoLogin {
+  email: string;
+  password: string;
+}
+
+export interface IUserInfoRegister {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }

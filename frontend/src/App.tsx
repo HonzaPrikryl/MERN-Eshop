@@ -8,11 +8,14 @@ import ProductScreen from "./Pages/Product";
 import LoginScreen from "./Pages/Login";
 import Registration from "./Pages/Registration";
 import CartScreen from "./Pages/Cart";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <>
       <Header />
+      <ToastContainer />
       <Container className="py-3">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
