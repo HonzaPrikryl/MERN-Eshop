@@ -5,12 +5,10 @@ import User from "../models/userModel.js";
 const protect = expressAsyncHandler(async (req, res, next) => {
   let token;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
+  token = req.cookies.jwt;
+
+  if (token) {
     try {
-      token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_TOKEN);
 
       req.user = await User.findById(decoded.id).select("-password");
@@ -18,12 +16,11 @@ const protect = expressAsyncHandler(async (req, res, next) => {
       next();
     } catch {
       res.status(401);
-      throw new Error("Not authorized");
+      throw new Error("Not authorized, invalid token");
     }
-  }
-  if (!token) {
+  } else {
     res.status(401);
-    throw new Error("Not authorized");
+    throw new Error("Not authorized, no token");
   }
 });
 
