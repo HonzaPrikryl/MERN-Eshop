@@ -1,33 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useUpdateUserMutation } from "../redux/api/usersApiSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setUserInfo } from "../redux/authSlice";
 import { toast } from "react-toastify";
-import { useLoginMutation } from "../redux/api/usersApiSlice";
+import { setUserInfo } from "../redux/authSlice";
 
-const LoginScreen = () => {
+const ProfileScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [login, { isLoading }] = useLoginMutation();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [updateProfileApi, { isLoading, error }] = useUpdateUserMutation();
   const { userInfo } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/");
-    }
-  }, [navigate, userInfo]);
+    if (!userInfo) return;
+    setName(userInfo.name);
+    setEmail(userInfo.email);
+  }, [userInfo]);
 
-  const canSave = [email, password].every(Boolean) && !isLoading;
+  const canSave = [email, name].every(Boolean);
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (canSave) {
       try {
-        const res = await login({ email, password }).unwrap();
+        const res = await updateProfileApi({
+          name,
+          email,
+          currentPassword,
+          newPassword,
+        }).unwrap();
         dispatch(setUserInfo(res));
         navigate("/");
       } catch (err) {
@@ -36,11 +43,15 @@ const LoginScreen = () => {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         } else {
-          toast.error("Invalid email or password. Please try again.", {
+          toast.error("Current password do not match", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         }
       }
+    } else {
+      toast.error("Name and email fields cannot be empty", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     }
   };
 
@@ -52,10 +63,18 @@ const LoginScreen = () => {
           <Card className="shadow">
             <Card.Body>
               <div className="mb-3 mt-md-4">
-                <h2 className="fw-bold mb-2 text-uppercase ">Login</h2>
-                <p className=" mb-5">Please enter your login and password!</p>
+                <h2 className="fw-bold mb-2 text-uppercase ">Update profile</h2>
                 <div className="mb-3">
                   <Form onSubmit={submitHandler}>
+                    <Form.Group className="mb-3" controlId="Name">
+                      <Form.Label className="text-center">Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label className="text-center">
                         Email address
@@ -68,38 +87,33 @@ const LoginScreen = () => {
                       />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Label>password</Form.Label>
+                      <Form.Label>Current password</Form.Label>
                       <Form.Control
                         type="password"
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                      <p className="small">
-                        <a className="text-primary" href="#!">
-                          Forgot password?
-                        </a>
-                      </p>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Label>New password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Confirm password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                      />
                     </Form.Group>
-                    <div className="d-flex">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="formBasicCheckbox"
+                    ></Form.Group>
+                    <div className="d-grid">
                       <Button variant="primary" type="submit">
-                        Login
+                        Save changes
                       </Button>
-                      {isLoading && (
-                        <div className="ml-5 mt-2">
-                          <h3>Loading...</h3>
-                        </div>
-                      )}
                     </div>
                   </Form>
-                  <div className="mt-3">
-                    <p className="mb-0  text-center">
-                      Don't have an account?{" "}
-                      <Link to={`/registration`}>Sign Up</Link>
-                    </p>
-                  </div>
                 </div>
               </div>
             </Card.Body>
@@ -110,4 +124,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default ProfileScreen;

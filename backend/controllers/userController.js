@@ -43,6 +43,41 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// @desc put user profile
+// @route PUT /api/users/profile
+// @access Private
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const { name, email, currentPassword, newPassword } = req.body;
+
+  if (user) {
+    user.name = name || user.name;
+    user.email = email || user.email;
+
+    if (currentPassword === "" && newPassword === "") {
+      user.password = user.password;
+    } else if (newPassword && (await user.matchPassword(currentPassword))) {
+      user.password = newPassword || user.password;
+    } else {
+      res.status(401);
+      throw new Error("current password do not match");
+    }
+
+    const updateUser = await user.save();
+
+    generateJwtToken(res, user._id);
+    res.json({
+      _id: updateUser._id,
+      name: updateUser.name,
+      email: updateUser.email,
+      isAdmin: updateUser.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
+});
+
 // @desc Register a new user
 // @route POST /api/users/register
 // @access Public
@@ -88,4 +123,10 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ message: "User logged out" });
 });
 
-export { loginUser, getUserProfile, registerUser, logoutUser };
+export {
+  loginUser,
+  getUserProfile,
+  registerUser,
+  logoutUser,
+  updateUserProfile,
+};

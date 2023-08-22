@@ -37,3 +37,10 @@ export interface IUserInfoRegister {
   password: string;
   confirmPassword: string;
 }
+
+export interface IProfileInfoChange {
+  name: string;
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+}

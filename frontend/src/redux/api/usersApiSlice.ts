@@ -1,4 +1,9 @@
-import { IUserInfo, IUserInfoLogin, IUserInfoRegister } from "../types";
+import {
+  IProfileInfoChange,
+  IUserInfo,
+  IUserInfoLogin,
+  IUserInfoRegister,
+} from "../types";
 import { apiSlice } from "./apiSlice";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
@@ -24,8 +29,19 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Profile"],
     }),
+    updateUser: builder.mutation<IUserInfo, IProfileInfoChange>({
+      query: (data) => ({
+        url: "/users/profile",
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useUpdateUserMutation,
+} = usersApiSlice;

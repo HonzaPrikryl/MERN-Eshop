@@ -23,6 +23,10 @@ const CartScreen: React.FC = () => {
     navigate("/login?redirect=shipping");
   };
 
+  const backToHomeHandler = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <Row>
@@ -50,7 +54,9 @@ const CartScreen: React.FC = () => {
                     <Col md={3}>
                       <Link to={`/product${product._id}`}>{product.name}</Link>
                     </Col>
-                    <Col md={2}>${product.price! * product.quantity}</Col>
+                    <Col md={2}>
+                      ${(product.price! * product.quantity).toFixed(2)}
+                    </Col>
                     <Col md={2}>
                       <Form.Control
                         as="select"
@@ -82,8 +88,6 @@ const CartScreen: React.FC = () => {
                       </Button>
                     </Col>
                   </Row>
-                  {/* Product ID: {item.product._id}, Quantity:{" "}
-                {item.product.quantity} */}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -114,8 +118,19 @@ const CartScreen: React.FC = () => {
                 type="button"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
+                className="w-100"
               >
                 Proceed To Checkout
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Button
+                type="button"
+                onClick={backToHomeHandler}
+                className="w-100"
+                variant="outline-primary"
+              >
+                Continue shopping
               </Button>
             </ListGroup.Item>
           </ListGroup>

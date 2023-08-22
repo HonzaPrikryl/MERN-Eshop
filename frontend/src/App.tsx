@@ -10,6 +10,8 @@ import Registration from "./Pages/Registration";
 import CartScreen from "./Pages/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfileScreen from "./Pages/Profile";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
@@ -23,6 +25,10 @@ const App = () => {
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/cart" element={<CartScreen />} />
+          {/* Private route */}
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/profile" element={<ProfileScreen />} />
+          </Route>
         </Routes>
       </Container>
       <Footer />

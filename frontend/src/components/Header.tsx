@@ -31,6 +31,10 @@ const Header = () => {
     }
   };
 
+  const profileDirectHandler = () => {
+    navigate("/profile");
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
       <Container>
@@ -56,6 +60,9 @@ const Header = () => {
                   id="user"
                 >
                   <NavDropdown.Item>Orders</NavDropdown.Item>
+                  <NavDropdown.Item onClick={profileDirectHandler}>
+                    Profile
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
