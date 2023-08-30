@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem, CartState } from "./types";
-
-const CART_STORAGE_KEY = "cartItems";
+import { CART_STORAGE_KEY } from "../constants/localStorageKeys";
 
 // Function to save cart items to localStorage
 const saveCartToLocalStorage = (cartItems: CartItem[]) => {

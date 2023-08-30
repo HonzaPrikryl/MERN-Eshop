@@ -44,3 +44,10 @@ export interface IProfileInfoChange {
   currentPassword: string;
   newPassword: string;
 }
+
+export interface IShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}

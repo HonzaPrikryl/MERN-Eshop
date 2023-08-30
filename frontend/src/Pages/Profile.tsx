@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUpdateUserMutation } from "../redux/api/usersApiSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { toast } from "react-toastify";

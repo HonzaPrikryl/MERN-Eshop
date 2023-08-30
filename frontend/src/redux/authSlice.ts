@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IUserInfo } from "./types";
-
-const USER_INFO_STORAGE_KEY = "userInfo";
+import { USER_INFO_STORAGE_KEY } from "../constants/localStorageKeys";
 
 const getUserInfoFromLocalStorage = (): IUserInfo | null => {
   const userInfoJSON = localStorage.getItem(USER_INFO_STORAGE_KEY);

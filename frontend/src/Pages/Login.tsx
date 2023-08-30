@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setUserInfo } from "../redux/authSlice";
 import { toast } from "react-toastify";
@@ -9,16 +9,22 @@ import { useLoginMutation } from "../redux/api/usersApiSlice";
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useAppSelector((state) => state.authReducer);
 
+  const redirect = searchParams.get("redirect") || "/";
+
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      const absoluteRedirect = redirect.startsWith("/")
+        ? redirect
+        : `/${redirect}`;
+      navigate(absoluteRedirect);
     }
-  }, [navigate, userInfo]);
+  }, [userInfo, navigate, redirect]);
 
   const canSave = [email, password].every(Boolean) && !isLoading;
 

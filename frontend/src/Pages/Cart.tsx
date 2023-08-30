@@ -19,7 +19,6 @@ const CartScreen: React.FC = () => {
   };
 
   const checkoutHandler = () => {
-    console.log("checkout");
     navigate("/login?redirect=shipping");
   };
 
