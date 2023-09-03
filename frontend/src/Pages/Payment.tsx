@@ -25,54 +25,49 @@ const Payment = () => {
         <Col md={7} xs={12}>
           <div className="border border-3 border-primary"></div>
           <Card className="shadow">
+            <Card.Header className="d-flex justify-content-center pt-4">
+              <CheckoutSteps step_1 step_2 step_3 active="step_3" />
+            </Card.Header>
             <Card.Body>
-              <div className="mb-5 mt-md-3 mb-6">
-                <div className="d-flex justify-content-center my-3">
-                  {" "}
-                  {/* Added my-5 here */}
-                  <CheckoutSteps step_1 step_2 step_3 active="step_3" />
-                </div>
-                <h2 className="fw-bold mb-2 text-uppercase ">Payment Method</h2>
-                <div className="mb-3">
-                  <Form onSubmit={submitHandler}>
-                    <Form.Group className="mb-3" controlId="formBasicAddress">
-                      <Form.Label as="legend">Select Method</Form.Label>
-                      <Col>
-                        <Form.Check
-                          type="radio"
-                          label="Credit card"
-                          id="Credit card"
-                          name="paymenMethod"
-                          value="Credit card"
-                          checked
-                          onChange={(e) => setPaymentMethod(e.target.value)}
-                        />
-                        <Form.Check
-                          type="radio"
-                          label="PayPal"
-                          id="PayPal"
-                          name="paymenMethod"
-                          value="PayPal"
-                          checked
-                          onChange={(e) => setPaymentMethod(e.target.value)}
-                        />
-                        <Form.Check
-                          type="radio"
-                          label="Stripe"
-                          id="Stripe"
-                          name="paymenMethod"
-                          value="Stripe"
-                          onChange={(e) => setPaymentMethod(e.target.value)}
-                        />
-                      </Col>
-                    </Form.Group>
-                    <div className="d-grid">
-                      <Button variant="primary" type="submit">
-                        Continue to summary
-                      </Button>
-                    </div>
-                  </Form>
-                </div>
+              <h2 className="fw-bold mb-2 text-uppercase ">Payment Method</h2>
+              <div className="mb-3">
+                <Form onSubmit={submitHandler}>
+                  <Form.Group className="mb-3" controlId="formBasicAddress">
+                    <Form.Label as="legend">Select Method</Form.Label>
+                    <Col>
+                      <Form.Check
+                        type="radio"
+                        label="Credit card"
+                        id="Credit card"
+                        name="paymenMethod"
+                        value="Credit card"
+                        checked
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="PayPal"
+                        id="PayPal"
+                        name="paymenMethod"
+                        value="PayPal"
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Stripe"
+                        id="Stripe"
+                        name="paymenMethod"
+                        value="Stripe"
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <div className="d-grid">
+                    <Button variant="primary" type="submit">
+                      Continue to summary
+                    </Button>
+                  </div>
+                </Form>
               </div>
             </Card.Body>
           </Card>

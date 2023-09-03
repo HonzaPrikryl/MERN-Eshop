@@ -24,7 +24,7 @@ const getShippingAddressFromLocalStorage = (): IShippingAddress | null => {
 const initialState: IShippingAddress = getShippingAddressFromLocalStorage() || {
   address: "",
   city: "",
-  postalCode: "",
+  postalCode: null,
   country: "",
 };
 

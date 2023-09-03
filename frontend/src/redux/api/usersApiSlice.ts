@@ -1,4 +1,6 @@
 import {
+  INewOrder,
+  IOrders,
   IProfileInfoChange,
   IUserInfo,
   IUserInfoLogin,
@@ -36,6 +38,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    createNewOrder: builder.mutation<IOrders, INewOrder>({
+      query: (data) => ({
+        url: "/orders",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +53,5 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useUpdateUserMutation,
+  useCreateNewOrderMutation,
 } = usersApiSlice;

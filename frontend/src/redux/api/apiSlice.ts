@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IProduct } from "../types";
+import { IOrders, IProduct } from "../types";
 
 type Products = IProduct[];
 
@@ -17,6 +17,9 @@ export const apiSlice = createApi({
       query: () => "/users/profile",
       providesTags: ["Profile"],
     }),
+    getOrders: builder.query<IOrders, void>({
+      query: () => "/orders",
+    }),
   }),
 });
 
@@ -24,4 +27,5 @@ export const {
   useGetProductsQuery,
   useGetSingleProductQuery,
   useGetUserProfileQuery,
+  useGetOrdersQuery,
 } = apiSlice;

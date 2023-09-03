@@ -93,11 +93,6 @@ const LoginScreen = () => {
                       <Button variant="primary" type="submit">
                         Login
                       </Button>
-                      {isLoading && (
-                        <div className="ml-5 mt-2">
-                          <h3>Loading...</h3>
-                        </div>
-                      )}
                     </div>
                   </Form>
                   <div className="mt-3">

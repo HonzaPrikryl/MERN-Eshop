@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  paymentMethod: "PayPal", // Default payment method
+  paymentMethod: "Credit card",
 };
 
 const paymentMethodSlice = createSlice({

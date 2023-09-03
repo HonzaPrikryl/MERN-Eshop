@@ -9,26 +9,26 @@ const orderSchema = mongoose.Schema(
     },
     orderItems: [
       {
-        name: { type: String, require: true },
-        qty: { type: Number, require: true },
-        image: { type: String, require: true },
-        price: { type: Number, require: true },
+        name: { type: String, required: true },
+        qty: { type: Number, required: true },
+        image: { type: String, required: true },
+        price: { type: Number, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          require: true,
-          ref: "product",
+          required: true,
+          ref: "Product",
         },
       },
     ],
-    Shipping: {
-      adress: { type: String, require: true },
-      city: { type: String, require: true },
-      postCode: { type: Number, require: true },
-      country: { type: String, require: true },
+    shipping: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: Number, required: true },
+      country: { type: String, required: true },
     },
     paymentMethod: {
       type: String,
-      require: true,
+      required: true,
     },
     paymentResult: {
       id: { type: String },
@@ -38,22 +38,22 @@ const orderSchema = mongoose.Schema(
     },
     taxPrice: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     shippingPrice: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     totalPrice: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     isPaid: {
       type: Boolean,
-      require: true,
+      required: true,
       default: false,
     },
     paidAt: {
@@ -61,7 +61,7 @@ const orderSchema = mongoose.Schema(
     },
     isDelivered: {
       type: Boolean,
-      require: true,
+      required: true,
       default: false,
     },
     deliveredAt: {
@@ -73,6 +73,6 @@ const orderSchema = mongoose.Schema(
   }
 );
 
-const Order = mongoose.model("order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;
